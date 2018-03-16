@@ -7,7 +7,7 @@
 
 
                     <div class="noti">
-                        <h4>Step 1: Connect to your Facebook Page</h4>
+                        <h4>Connect to your Facebook Page</h4>
                     </div>
                     <small class="text-muted">
                         - Đăng nhập facebook và chọn Page bạn muốn kết nối chatbot.<br>
@@ -25,8 +25,15 @@
                                 Facebook
                             </button>
 
+
                         </div>
                     </div>
+                    <div class="card-block" ng-show="pageList.length > 0">
+                        <div>
+                            <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="false"></div>
+                        </div>
+                    </div>
+
                     <div ng-repeat="card in pageList" class="card-joblist" ng-hide="viewLink.length > 0 || loading">
                         <div class="spinner" ng-if="loading">
                             <div class="cube1"></div>

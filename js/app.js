@@ -181,6 +181,11 @@ var app = angular
                     void 0
                 }, {scope: 'public_profile,email,manage_pages,pages_messaging,pages_messaging_subscriptions,read_page_mailboxes'});
             }
+            $rootScope.logoutFB = function () {
+                FB.logout(function(response) {
+                    toastr.info('Log out');
+                });
+            }
         };
         $window.extAsyncInit = function() {
             // the Messenger Extensions JS SDK is done loading
