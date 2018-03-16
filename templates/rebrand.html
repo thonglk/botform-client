@@ -1,0 +1,49 @@
+<div class="app animated fadeIn">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card" style="margin-top: 20px;">
+                <hr class="transparent mx-1 my-0">
+                <div class="callout callout-primary m-0 py-1">
+
+
+                    <div class="noti">
+                        <h4>Choose Page</h4>
+                    </div>
+
+
+                    <div class="spinner" ng-if="loading">
+                        <div class="cube1"></div>
+                        <div class="cube2"></div>
+                    </div>
+
+                    <div class="card-block" ng-hide="pageList.length> 0">
+                            <button ng-click="loginFB()" class="button btn btn-facebook btn-block">Đăng nhập bằng
+                                Facebook
+                            </button>
+                    </div>
+                    <div ng-repeat="card in pageList" class="card-joblist" ng-hide="viewLink.length > 0 || loading">
+                        <div class="spinner" ng-if="loading">
+                            <div class="cube1"></div>
+                            <div class="cube2"></div>
+                        </div>
+                        <div class="message p-h">
+                            <div class="float-right">
+                                <button ng-click="removeBranding(card,url)" class="btn btn-primary">Connect</button>
+                            </div>
+                            <div><strong>{{card.name}}</strong></div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <hr class="mx-1 my-0">
+            </div>
+
+
+        </div>
+    </div>
+
+
+</div>
+
+

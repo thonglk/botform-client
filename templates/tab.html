@@ -1,0 +1,58 @@
+<div>
+    <header class="app-header navbar">
+
+        <a class="navbar-brand"></a>
+
+        <ul class="nav navbar-nav ml-auto">
+
+            <li class="nav-item dropdown">
+                <a class="nav-link nav-pill " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+                    <i class="icon-list"></i></a>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+
+                    <div class="dropdown-header text-center">
+                        <strong class="ng-binding">Create</strong>
+                    </div>
+
+                    <a class="dropdown-item" ui-sref-active="active" ui-sref="app.create"><i class="fa fa-bell-o"></i> Lead Automation</a>
+                    <a class="dropdown-item" ui-sref-active="active" ui-sref="app.rebrand"><i class="fa fa-bell-o"></i> Remove Chatfuel Branding</a>
+                    <div class="dropdown-header text-center">
+                        <strong class="ng-binding">Manage</strong>
+                    </div>
+
+                    <a ng-if="pageID" class="dropdown-item" ui-sref-active="active" ui-sref="app.bot ({page:pageID})"><i class="fa fa-bell-o"></i> Response</a>
+
+                </div>
+            </li>
+        </ul>
+    </header>
+</div>
+
+
+<div class="app-body">
+    <!-- Main content -->
+    <main class="main">
+
+        <ui-view></ui-view>
+
+    </main>
+</div>
+
+<script>
+    function openNav() {
+        document.getElementById("mySidenav").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+    }
+
+    /* Set the width of the side navigation to 0 */
+    function closeNav() {
+        document.getElementById("mySidenav").style.width = "0";
+        document.getElementById("main").style.marginLeft = "0";
+        document.body.style.backgroundColor = "white";
+    }
+
+</script>
+<!-- Footer -->
+<!--<div ng-include="'views/common/footer.html'"></div>-->

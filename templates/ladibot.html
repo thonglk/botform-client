@@ -1,0 +1,190 @@
+<div class="app animated fadeIn">
+    <div class="row justify-content-center">
+
+        <div class="col-md-12" ng-show="myState == 'viewBot'">
+            <div class="card" ng-if="pageID">
+                <div class="card-header">
+
+                    <i class="fa fa-chevron-left" ng-click="gotoState('chooseBot')"></i>
+                    <div class="avatar">
+                        <img src="/img/macdinh.jpg" class="img-avatar">
+                    </div>
+                    {{responses.pageData.name}}
+
+
+                    <a class="button btn btn-primary float-right" href="https://docs.google.com/forms/d/{{responses.pageData.editId}}/edit" target="_blank"> Edit Form</a>
+                    <a class="button btn btn-primary float-right" href="https://docs.google.com/spreadsheets/d/{{responses.pageData.sheetId}}/edit" target="_blank"> Google Sheet</a>
+
+
+                </div>
+
+                <div class="card-block">
+                    <button type="button" class="btn btn-primary" ng-click="showFilter = true">
+                        Filter
+                    </button>
+                    <div class="card" ng-if="showFilter == true">
+                        <div class="card-block">
+                            <div id="filter" >
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <div>
+                                            <input placeholder="Search name" type="text" class="form-control"
+                                                   ng-model="query.full_name">
+                                            <input placeholder="Ref" type="text" class="form-control"
+                                                   ng-model="query.ref">
+
+                                        </div>
+                                        <select id="select" name="select" class="form-control" ng-model="query.gender">
+                                            <option value="">Gender</option>
+                                            <option value="male">male</option>
+                                            <option value="female">female</option>
+                                        </select>
+                                        <select id="select" name="select" class="form-control" ng-model="query.locale">
+                                            <option value="">Locale</option>
+                                            <option value="en">en</option>
+                                            <option value="vi">vi</option>
+                                        </select>
+                                    </div>
+
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <div>
+                                            <span class="input-group-addon">subscribe_from</span>
+                                            <input class="form-control" type="date" ng-model="query.createdAt_from">
+                                            <span class="input-group-addon">to</span>
+                                            <input class="form-control" type="date" ng-model="query.createdAt_to">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-3">
+                                    <div class="form-group">
+                                        <div>
+                                            <span class="input-group-addon">lastActive_from</span>
+                                            <input class="form-control" type="date" ng-model="query.lastActive_from">
+                                            <span class="input-group-addon">to</span>
+                                            <input class="form-control" type="date" ng-model="query.lastActive_to">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-6 col-md-3">
+                                    <button type="button" class="btn btn-block btn-primary btn-lg"
+                                            ng-click="loadResponse(query)">
+                                        Search
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="card-footer">{{query}}
+                        </div>
+                    </div>
+                    <div class="spinner" ng-if="loading">
+                        <div class="cube1"></div>
+                        <div class="cube2"></div>
+                    </div>
+                    Result: {{responses.data.length}}, Reachable: {{responses.data.length - responses.count.sent_error}}
+
+                    <table class="table table-responsive-sm table-hover table-outline mb-0">
+                        <thead class="thead-default">
+                        <tr>
+                            <th class="text-center hidden-md-down"><i class="icon-people"></i>
+                            </th>
+                            <th>User</th>
+                            <th class="hidden-md-down">Activity</th>
+                            <th class="hidden-md-down">AI</th>
+                            <th class="text-center"><i class="icon-settings"></i>
+                            </th>
+
+                        </tr>
+                        </thead>
+                        <tbody class="ng-scope">
+                        <tr ng-repeat="user in responses.data" class="ng-scope">
+                            <td class="text-center hidden-md-down">
+                                <div class="avatar">
+                                    <img class="img-avatar" alt="{{user.full_name}}" src="{{user.profile_pic}}">
+                                </div>
+                            </td>
+                            <td>
+                                <div class="ng-binding">{{user.full_name}} <span ng-hide="user.lastSent"
+                                                                                 class="badge badge-primary">New</span>
+                                </div>
+
+                                <div class="small text-muted ng-binding">
+                                    | Gender: {{user.gender}}<br>
+                                    | Locale : {{user.locale}}<br>
+                                    | Ref: {{user.ref}}
+
+                                </div>
+                            </td>
+
+                            <td class="hidden-md-down">
+                                <div class="small text-muted">
+                                    | Subscribe: {{service.timeAgo(user.createdAt)}}<br>
+                                    | Last Active: {{service.timeAgo(user.lastActive)}}
+                                </div>
+
+                            </td>
+                            <td class="hidden-md-down">
+                                <small ng-repeat="(key,value) in user.nlp"><b>{{key}}:</b> {{value}}<br></small>
+
+                            </td>
+                            <td class="text-center">
+                                <a href="https://fb.com{{user.link}}" target="_blank" class="btn btn-primary">Go to
+                                    Chat</a>
+                                <span class="badge badge-warning"
+                                      ng-if="user.lastReceive.timestamp > user.lastSent.timestamp">Pending</span>
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+
+
+        </div>
+        <div class="col-md-6" ng-show="!pageID || myState == 'chooseBot'">
+            <div class="card" style="margin-top: 20px;">
+                <hr class="transparent mx-1 my-0">
+                <div class="callout callout-primary m-0 py-1">
+
+                    <div class="noti">
+                        <h4>Choose page</h4>
+                    </div>
+                    <div class="spinner" ng-if="loading">
+                        <div class="cube1"></div>
+                        <div class="cube2"></div>
+                    </div>
+                    <div ng-hide="pageList.length> 0">
+                        <button style="margin-top:20px" class="button btn btn-facebook btn-block"
+                                ng-click="facebookLogin()">
+                            Đăng nhập bằng Facebook
+                        </button>
+                    </div>
+
+                    <div ng-repeat="card in pageList" class="card-joblist">
+
+                        <div class="message p-h">
+                            <div class="float-right">
+                                <a class="button btn btn-primary" ui-sref="app.bot ({page:card.id})"> Choose</a>
+                            </div>
+                            <div><strong>{{card.name}}</strong></div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+                <hr class="mx-1 my-0">
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
