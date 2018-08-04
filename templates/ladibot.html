@@ -1,30 +1,386 @@
 <div class="app animated fadeIn">
+
+
     <div class="row justify-content-center">
 
-        <div class="col-md-12" ng-show="myState == 'viewBot'">
-            <div class="card" ng-if="pageID">
+        <div class="col-md-8" ng-show="!pageID || myState == 'chooseBot'">
+            <div class="card">
+                <hr class="transparent mx-1 my-0">
+                <div class="callout callout-primary m-0 py-1">
+
+                    <div class="noti">
+                        <h4>Choose page</h4>
+                    </div>
+
+                    <a ui-sref-active="active" ui-sref="create"
+                    class="button btn btn-success btn-lg btn-block">
+                    Connect new bot!
+                    </a>
+                    <div class="row">
+
+                        <div ng-repeat="card in botList" class="col-md-4">
+                            <div class="card-joblist">
+
+                                <div class="message p-h" ui-sref="app.bot ({state: 'dashBoard',page:card.id})">
+                                    <div class="float-right">
+                                        {{card.analytic.createAt}} users
+                                    </div>
+                                    <div><strong>{{card.name}}</strong></div>
+                                </div>
+
+                            </div>
+
+
+                        </div>
+
+
+                    </div>
+                    <hr class="mx-1 my-0">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+
+            <div class="card" ng-if="pageID && myState != 'chooseBot'">
                 <div class="card-header">
 
-                    <i class="fa fa-chevron-left" ng-click="gotoState('chooseBot')"></i>
-                    <div class="avatar">
-                        <img src="/img/macdinh.jpg" class="img-avatar">
-                    </div>
-                    {{responses.pageData.name}}
-
-
-                    <a class="button btn btn-primary float-right" href="https://docs.google.com/forms/d/{{responses.pageData.editId}}/edit" target="_blank"> Edit Form</a>
-                    <a class="button btn btn-primary float-right" href="https://docs.google.com/spreadsheets/d/{{responses.pageData.sheetId}}/edit" target="_blank"> Google Sheet</a>
+                    <i class="fa fa-chevron-left" ui-sref="app.bot ({state: 'chooseBot'})"></i>
+                    🤖 <b>{{pageData.name}} </b>  {{pageData.analytic.createAt}} users
+                    <div class="float-right"><a href="{{viewLink.bot}}?ref=start" target="_blank">{{viewLink.bot}}</a></div>
 
 
                 </div>
+                <!--<div class="avatar">-->
+                <!--<img src="/img/macdinh.jpg" class="img-avatar">-->
+                <!--</div>-->
+                <div class="card-block" ng-show="myState == 'dashBoard'">
 
-                <div class="card-block">
+                    <div class="col-md-8">
+                        <div class="card">
+                            <div class="card-block">
+                                <h4 class="card-title">Step 1: {{L('Chat to your bot/page','Chat với bot/page của bạn')}} {{pageData.createdBy.mID}}
+                                </h4>
+                                <a class="button btn btn-primary" href="{{viewLink.bot}}?ref=start" target="_blank">{{L('Chat
+                                    to your page',"Chat tới page của bạn")}}</a> <br><br>
+                                <div class="fb-send-to-messenger" messenger_app_id="295208480879128"
+                                     page_id="{{pageID}}" data-ref="widget" color="blue" size="standard"></div>
+
+                            </div>
+
+                        </div>
+                        <div class="card">
+
+                            <div class="card-block">
+                                <h4 class="card-title">Step 2: {{L("Edit bot script via Google Forms","Chỉnh sửa kịch bản qua Google forms")}}</h4>
+
+                                <p>{{L("After building bot script in Google Forms, click Update","Sau khi chỉnh sửa kịch bản bot sử dụng giao diện của Google Forms, nhấn Cập nhật")}} <br>
+                                </p>
+                                <a href="{{viewLink.forms}}" class="button btn btn-primary"
+                                   target="_blank">{{L('Open current
+                                    Google Forms','Mở Google forms hiện tại')}}
+                                </a>
+                                <br>
+                                <br>
+                                <button ng-click="buildBot(pageData)"
+                                        class="btn btn-primary">{{L('Update',"Cập nhật")}}
+                                </button>
+                                {{L("Last update","Cập nhật lần cuối")}} {{service.timeAgo(pageData.updatedAt)}}
+
+                            </div>
+
+                        </div>
+
+                        <div class="card">
+
+
+                            <div class="card-block">
+                                <h4 class="card-title">Step 3: {{L("Live chat for your Website","Chèn live chat vào website của bạn")}}</h4>
+
+                                <p>{{L("Turn your website visitor into subscribers","Chuyển đổi khách truy cập
+                                    website thành leads ")}}</p>
+
+                                <button ng-click="show.addweb = true" ng-hide="show.addweb == true"
+                                        class="btn btn-primary">Start
+                                </button>
+                                <div ng-show="show.addweb == true">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label" for="text-input">{{L("Your website
+                                            domain","Link website của bạn")}}</label>
+                                        <div class="col-md-9">
+                                            <input type="url" id="text-input" name="text-input" class="form-control"
+                                                   placeholder="https://example.com" ng-model="customercodeSet.domain">
+                                        </div>
+
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label" for="text-input">Themes color</label>
+                                        <div class="col-md-9">
+                                            <color-picker ng-model="customercodeSet.theme_color"></color-picker>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label" for="text-input">Greeting message for
+                                            logged out user</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="text-input" name="text-input" class="form-control"
+                                                   ng-model="customercodeSet.logged_out_greeting">
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label" for="text-input">Greeting message for
+                                            logged in user</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="text-input" name="text-input" class="form-control"
+                                                   ng-model="customercodeSet.logged_in_greeting">
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label" for="text-input">When first
+                                            seen</label>
+                                        <div class="col-md-9">
+                                            <div class="radio">
+                                                <label for="radio1">
+                                                    <input type="radio" id="radio1" name="radios" value="true"
+                                                           ng-model="customercodeSet.minimized">Show only Messenger
+                                                    bubble
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label for="radio2">
+                                                    <input type="radio" id="radio2" name="radios" value="false"
+                                                           ng-model="customercodeSet.minimized">Open chat window
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label" for="text-input">Ref</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="text-input" name="text-input" class="form-control"
+                                                   ng-model="customercodeSet.ref">
+                                            <span class="help-block">This is like m.me/pageID?ref=[ref]</span>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" ng-click="generateCode()">{{L("Generate","Tạo")}}
+                                    </button>
+                                    <div class="card card-outline-primary">
+                                        <div class="card-header">
+                                            {{L(' Add the following code snippet to your website.','Chèn đoạn code này
+                                            vào website của bạn')}}
+                                        </div>
+                                        <div class="card-block">
+                                            {{customercode}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+
+                        <div class="card">
+
+                            <div class="card-block">
+                                <h4 class="card-title">Step 4: {{L("Add Call-to-Action to your website","Thêm nút kêu gọi theo dõi bot vào website")}}</h4>
+
+                                <p>{{L("Tips: Put it beside email-collector forms","Mẹo: Hãy đặt nút này cạnh form thu nhập email của website ")}}</p>
+                                <button ng-click="show.addCTA = true" ng-hide="show.addCTA == true"
+                                        class="btn btn-primary">Start
+                                </button>
+                                <div ng-show="show.addCTA == true">
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label" for="text-input">{{L("Your website
+                                            domain","Link website của bạn")}}</label>
+                                        <div class="col-md-9">
+                                            <input type="url" id="text-input" name="text-input" class="form-control"
+                                                   placeholder="https://example.com" ng-model="customercodeSet.domain">
+                                        </div>
+
+                                    </div>
+
+
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label" for="text-input">Color</label>
+                                        <div class="col-md-9">
+                                            <div class="radio">
+                                                <label for="sendcolor_radio1">
+                                                    <input type="radio" id="sendcolor_radio1" name="sendcolor_radio"
+                                                           value="blue" ng-model="sendToMessengerSet.color">blue
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label for="sendcolor_radio2">
+                                                    <input type="radio" id="sendcolor_radio2" name="sendcolor_radio"
+                                                           value="white" ng-model="sendToMessengerSet.white">white
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label" for="text-input">Size</label>
+                                        <div class="col-md-9">
+                                            <div class="radio">
+                                                <label for="sendsize_radio1">
+                                                    <input type="radio" id="sendsize_radio1" name="sendsize_radio"
+                                                           value="standard" ng-model="sendToMessengerSet.size">standard
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label for="sendsize_radio2">
+                                                    <input type="radio" id="sendsize_radio2" name="sendsize_radio"
+                                                           value="large" ng-model="sendToMessengerSet.size">large
+                                                </label>
+                                            </div>
+                                            <div class="radio">
+                                                <label for="sendsize_radio3">
+                                                    <input type="radio" id="sendsize_radio3" name="sendsize_radio"
+                                                           value="xlarge" ng-model="sendToMessengerSet.size">xlarge
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 form-control-label" for="text-input">Ref</label>
+                                        <div class="col-md-9">
+                                            <input type="text" id="text-input" name="text-input" class="form-control"
+                                                   ng-model="sendToMessengerSet.ref">
+                                            <span class="help-block">This is like m.me/pageID?ref=[ref]</span>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary" ng-click="generateCode('sendToMessenger')">
+                                        {{L("Generate","Tạo")}}
+                                    </button>
+                                    <div class="card card-outline-primary">
+                                        <div class="card-header">
+                                            {{L(' Add the following code snippet to your website.','Chèn đoạn code này
+                                            vào website của bạn')}}
+                                        </div>
+                                        <div class="card-block">
+                                            {{sendToMessenger}}
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="card">
+
+
+                            <div class="card-block">
+                                <h4 class="card-title">{{L("Save users to Google sheets","Lưu user về Google sheets")}}</h4>
+
+                                <p>{{L("to filter and get messengerID for run ads","để lọc và lấy mID chạy quảng
+                                    cáo")}}</p>
+
+
+
+                                <button ng-click="updateSheet(pageData.sheetId,pageID)"
+                                        class="btn btn-primary">{{L("Export users to Google sheet","Xuất users ra Google Sheet")}}
+                                </button>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card-industry">
+                            <h5>Features</h5>
+                            <ul>
+                                <li>
+                                    <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+                                    {{L("Prefill phone number and email that your customer don't
+                                    need to type","Gợi ý và
+                                    lấy sdt và email
+                                    mà khách không cần nhập từ inbox")}}
+                                </li>
+                                <li>
+                                    <i class="fa fa-paper-plane-o" aria-hidden="true"></i>
+                                    {{L("Easily build your bot with Google forms","Chỉnh sửa
+                                    kịch bản bot
+                                    bằng google forms")}}
+                                </li>
+                                <li>
+                                    <i class="fa fa-paper-plane-o" aria-hidden="true"></i> {{L("Auto inbox with
+                                    customer comment on page, click ads..","Tự động inbox lấy số
+                                    từ khách click ads, comment trên page, điền form")}}
+                                </li>
+                                <li>
+                                    <i class="fa fa-paper-plane-o" aria-hidden="true"></i> {{L("Save users to Google
+                                    sheet","Chuyển lead về lưu
+                                    Google sheets")}}
+                                </li>
+                                <li>
+                                    <i class="fa fa-paper-plane-o" aria-hidden="true"></i> {{L("Notify admin via SMS
+                                    or Email","Thông báo cho admin
+                                    qua Messenger và
+                                    Email")}}
+                                </li>
+                                <li>
+                                    <i class="fa fa-paper-plane-o" aria-hidden="true"></i>{{L("Send broadcast to
+                                    your user","Gửi tin nhắn inbox hàng loạt")}}
+                                    <!--<span class="badge badge-info">PRO</span>-->
+                                </li>
+                            </ul>
+                            <br>
+                            <div class="card">
+                                <hr class="transparent mx-1 my-0">
+                                <div class="callout callout-primary m-0 py-1">
+
+                                    <div class="noti">
+                                       {{L("Botform is free for Vietnamese users 🇻🇳","Botform sẽ miễn phí vĩnh viễn cho người dùng Việt Nam 🇻🇳")}}
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button"   ui-sref="app.bot ({state: 'pricing',page:pageID})" class="btn btn-warning btn-lg btn-block">{{L("Remove branding","Xóa branding")}}</button>
+
+
+                            <!--/.col-->
+                            <!--/.col-->
+
+                        </div>
+                        <div class="card">
+                            <div class="card-block p-1 clearfix">
+                                <i class="fa fa-laptop bg-info p-1 font-2xl mr-1 float-left"></i>
+                                <div class="h5 text-info mb-0 mt-h">{{L("Support","Hỗ trợ")}}</div>
+                            </div>
+                            <div class="card-footer px-1 py-h">
+                                <a class="font-weight-bold font-xs btn-block text-muted"
+                                   href="https://www.facebook.com/groups/1030094127133348"
+                                   target="_blank">{{L("Join group","Tham gia group")}} <i
+                                        class="fa fa-angle-right float-right font-lg"></i></a>
+                            </div>
+                            <div class="card-footer px-1 py-h">
+                                <a class="font-weight-bold font-xs btn-block text-muted"
+                                   href="https://m.me/khanhthongg"
+                                   target="_blank">{{L("Chat with founder","Chat với nhà sáng lập")}}<i
+                                        class="fa fa-angle-right float-right font-lg"></i></a>
+                            </div>
+                            <div class="card-footer px-1 py-h">
+                                <a class="font-weight-bold font-xs btn-block text-muted"
+                                   href="tel:0899988680"
+                                   target="_blank">08999 88680 <i
+                                        class="fa fa-angle-right float-right font-lg"></i></a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card-block" ng-show="myState == 'viewBot'">
                     <button type="button" class="btn btn-primary" ng-click="showFilter = true">
                         Filter
                     </button>
                     <div class="card" ng-if="showFilter == true">
                         <div class="card-block">
-                            <div id="filter" >
+                            <div id="filter">
                                 <div class="col-sm-6 col-md-3">
                                     <div class="form-group">
                                         <div>
@@ -34,12 +390,14 @@
                                                    ng-model="query.ref">
 
                                         </div>
-                                        <select id="select" name="select" class="form-control" ng-model="query.gender">
+                                        <select id="select" name="select" class="form-control"
+                                                ng-model="query.gender">
                                             <option value="">Gender</option>
                                             <option value="male">male</option>
                                             <option value="female">female</option>
                                         </select>
-                                        <select id="select" name="select" class="form-control" ng-model="query.locale">
+                                        <select id="select" name="select" class="form-control"
+                                                ng-model="query.locale">
                                             <option value="">Locale</option>
                                             <option value="en">en</option>
                                             <option value="vi">vi</option>
@@ -61,7 +419,8 @@
                                     <div class="form-group">
                                         <div>
                                             <span class="input-group-addon">lastActive_from</span>
-                                            <input class="form-control" type="date" ng-model="query.lastActive_from">
+                                            <input class="form-control" type="date"
+                                                   ng-model="query.lastActive_from">
                                             <span class="input-group-addon">to</span>
                                             <input class="form-control" type="date" ng-model="query.lastActive_to">
                                         </div>
@@ -73,6 +432,9 @@
                                             ng-click="loadResponse(query)">
                                         Search
                                     </button>
+                                    <a href="{{viewLink.sheet}}" class="button btn btn-primary btn-block"
+                                       target="_blank">{{L("Open Google sheet","Mở Google Sheet")}}</a>
+
                                 </div>
                             </div>
 
@@ -80,11 +442,9 @@
                         <div class="card-footer">{{query}}
                         </div>
                     </div>
-                    <div class="spinner" ng-if="loading">
-                        <div class="cube1"></div>
-                        <div class="cube2"></div>
-                    </div>
-                    Result: {{responses.data.length}}, Reachable: {{responses.data.length - responses.count.sent_error}}
+
+                    Result: {{responses.data.length}}, Reachable: {{responses.data.length -
+                    responses.count.sent_error}}
 
                     <table class="table table-responsive-sm table-hover table-outline mb-0">
                         <thead class="thead-default">
@@ -93,7 +453,7 @@
                             </th>
                             <th>User</th>
                             <th class="hidden-md-down">Activity</th>
-                            <th class="hidden-md-down">AI</th>
+                            <th class="hidden-md-down">Custom</th>
                             <th class="text-center"><i class="icon-settings"></i>
                             </th>
 
@@ -127,7 +487,7 @@
 
                             </td>
                             <td class="hidden-md-down">
-                                <small ng-repeat="(key,value) in user.nlp"><b>{{key}}:</b> {{value}}<br></small>
+                                <small ng-repeat="(key,value) in user.custom"><b>{{key}}:</b> {{value}}<br></small>
 
                             </td>
                             <td class="text-center">
@@ -142,45 +502,253 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="card-block" ng-show="myState == 'broadCast'">
+                    <table class="table table-responsive-sm table-hover table-outline mb-0">
+                        <thead class="thead-default">
+                        <tr>
+                            <th>Message</th>
 
-            </div>
+                            <th>Sent At</th>
+                            <th>Total</th>
+                            <th>Sent Success</th>
 
 
-        </div>
-        <div class="col-md-6" ng-show="!pageID || myState == 'chooseBot'">
-            <div class="card" style="margin-top: 20px;">
-                <hr class="transparent mx-1 my-0">
-                <div class="callout callout-primary m-0 py-1">
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="user in broadcast">
+                            <td>
+                                {{user.blockName}}
+                            </td>
 
-                    <div class="noti">
-                        <h4>Choose page</h4>
-                    </div>
-                    <div class="spinner" ng-if="loading">
-                        <div class="cube1"></div>
-                        <div class="cube2"></div>
-                    </div>
-                    <div ng-hide="pageList.length> 0">
-                        <button style="margin-top:20px" class="button btn btn-facebook btn-block"
-                                ng-click="facebookLogin()">
-                            Đăng nhập bằng Facebook
-                        </button>
-                    </div>
+                            <td>
+                                {{service.timeAgo(user.createdAt)}}
 
-                    <div ng-repeat="card in pageList" class="card-joblist">
+                            </td>
+                            <td>
+                                {{user.total}}
 
-                        <div class="message p-h">
-                            <div class="float-right">
-                                <a class="button btn btn-primary" ui-sref="app.bot ({page:card.id})"> Choose</a>
+                            </td>
+                            <td class="text-center">
+                                {{user.sent}}
+
+                            </td>
+
+                        </tr>
+
+                        </tbody>
+                    </table>
+                    <hr>
+                    <div class="card">
+                        <div class="card-header">
+                            {{L("Create new broadcast","Tạo tin nhắn đồng loạt")}}
+                        </div>
+                        <div class="card-block">
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="select">{{L("Step 1: Select Message
+                                    (from Google forms)","Bước 1: Chọn tin nhắn ")}}</label>
+
+                                <div class="col-md-9">
+                                    <select ng-model="messageBroadcast" id="select"
+                                            name="select" class="form-control input-lg" size="1">
+                                        <option ng-repeat="card in dataBot.data[1]" value="{{card[1]}}">{{card[1]}}
+                                            {{card[2]}}
+                                        </option>
+
+                                    </select>
+                                </div>
                             </div>
-                            <div><strong>{{card.name}}</strong></div>
+
+                            <div class="form-group row">
+                                <label class="col-md-3 form-control-label" for="select"> {{L("Step 2: Load Target
+                                    User
+                                    (from 'broadcast' of Google sheet)","Bước 2: Chọn danh sách mục tiêu (từ sheet
+                                    'Broadcast' trong google sheet)")}}</label>
+                                <div class="col-md-9">
+                                    <button ng-click="getTargetUser(pageData.sheetId)"
+                                            class="btn btn-primary">Load
+                                    </button>
+                                    Result: {{TargetUser.data.length}}
+                                </div>
+                            </div>
 
 
+                        </div>
+                        <div class="card-footer">
+                            <button ng-click="sendBroadCast(messageBroadcast)" class="btn btn-primary btn-lg">
+                                {{L("Send
+                                Now", "Gửi ngay")}}
+                            </button>
+                            Sent: {{broadcastSend.sent}}
                         </div>
                     </div>
 
                 </div>
-                <hr class="mx-1 my-0">
+
+                <div class="card-block" ng-if="myState == 'template'">
+
+                    <div class="card" style="margin-top: 20px;" >
+                        <div class="card-header">
+
+                            <b>{{L("Edit bot script via Google Forms","Chỉnh sửa kịch bản qua Google
+                                forms")}}</b>
+                        </div>
+                        <div class="card-block">
+                            <p>{{L("After building bot script in Google Forms, click Update or chat to your bot
+                                this command:'update my bot'","Sau khi chỉnh sửa kịch bản bot sử dụng giao diện
+                                của Google Forms, nhấn Cập nhật hoặc vào chatbot của bạn gõ 'update my bot' để
+                                cập nhật thay đổi")}} <br>
+
+                            </p>
+
+                            <br>
+                            <div class="form-group">
+                                <label>{{L("Change google forms","Thay đổi forms")}} </label>
+                                <div class="input-group">
+                                    <input placeholder="Paste your Google Form link. Eg: https://docs.google.com/forms/d/.."
+                                           type="text" class="form-control"
+                                           ng-model="url">
+                                    <span class="input-group-btn">
+                                                                <button ng-click="buildBot(pageData,url)"
+                                                                        class="btn btn-primary">{{L("Change","Thay đổi")}}</button>
+                                        </span>
+                                </div>
+                            </div>
+
+                            <span style="font-size:12px" class="text button-tip"> <a style="font-size:12px" target="_blank"
+                                                                                     href="https://forms.google.com">Go to Google Drive</a> to find forms</span>
+
+
+                        </div>
+                        <div class="card-header">
+                            Template
+                        </div>
+                        <div class="card-block">
+                            <div class="row">
+                                <div class="col-4" ng-repeat="temp in template">
+
+                                    <div class="card-industry" >
+                                        <h5>{{temp.title}}</h5>
+
+
+
+                                        <br>
+
+
+                                        <p ng-bind-html="temp.feature"></p>
+
+                                        <br>
+
+                                        <button ng-click="setTemplatePage(pageData,temp.templateId)" type="button" class="btn btn-primary">Using this template</button>
+                                        <a href="{{temp.demo}}" target="_blank" class="button btn btn-secondary">Live Preview</a>
+                                        <a href="https://docs.google.com/forms/d/{{temp.templateId}}/copy" target="_blank" class="button btn btn-link">View Google Form</a>
+                                        <br>
+                                        <small>by {{temp.author}}</small>
+                                    </div>
+
+
+                                </div>
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="card-block" ng-if="myState == 'pricing'">
+                    <div class="card-block">
+
+                        <div class="card" ng-show="pageData.package =='trialover'">
+                            <hr class="transparent mx-1 my-0">
+                            <div class="callout callout-primary m-0 py-1">
+
+                                <div class="noti">
+                                    {{L("Your trial plan is over","Bạn đã hết hạn dùng thử")}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>
+
+                            Buy Worry Free with Our Money Back Guarantee.
+                        </h3>
+                        <p>{{L("If you don’t like Botform over the next 14 days, then we will happily refund 100% of your money. No questions asked.","Nếu bạn không thích sử dụng Botform trong vòng 14 ngày, chúng tôi sẽ hoàn tiền 100%, không cần hỏi lý do")}}
+                        </p>
+
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="card card-outline-primary">
+                                    <div class="card-header">
+                                        <h4 class="card-title">{{L("Free forever","Miễn phí trọn đời")}}
+                                        </h4>
+                                    </div>
+                                    <div class="card-block">
+                                        <i class="icon-energy"></i> {{L('Botform branding','Quảng cáo Botform trong bot')}} <br>
+                                        <i class="icon-energy"></i> {{L('Community support','Hỗ trợ từ cộng đồng')}}
+
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-outline-success">
+                                    <div class="card-header">
+                                        <h4 class="card-title">{{L("$10","199k")}}
+                                        </h4>
+                                        {{L("/month","/tháng")}}
+                                    </div>
+                                    <div class="card-block">
+                                        <i class="icon-energy"></i> {{L('Remove Botform branding','Xóa quảng cáo Botform')}} <br>
+                                        <i class="icon-energy"></i> {{L('Private support','Hỗ trợ 1-1 trực tiếp')}}<br>
+                                        <i class="icon-energy"></i> {{L('$69/year','1499k/năm')}}<span class="badge badge-success">{{L("Save 43%","Tiết kiệm 43%")}}</span> <br>
+
+                                    </div>
+
+                                    <div class="card-footer">
+                                        <a ng-show="lang == 'en'" class="gumroad-button" href="https://gum.co/botform?wanted=true" target="_blank">{{L("Upgrade ","Đăng ký")}}</a>
+
+                                        <a ng-show="lang == 'vi'" href="https://paygate.glitch.me/?amount=1499000&order_id=BY{{pageID}}&order_description=1_year" class="button btn btn-success btn-lg btn-block">Thanh toán bằng ATM</a>
+                                        <a ng-show="lang == 'vi'" href="https://paygate.glitch.me/?amount=1499000&order_id=BY{{pageID}}&order_description=1_year&visa=true" class="button btn btn-success btn-lg btn-block">Thanh toán bằng VISA</a>
+
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card card-outline-primary">
+                                    <div class="card-header">
+                                        <h4 class="card-title">VIP Customize
+                                        </h4>
+                                        Contact us
+                                    </div>
+                                    <div class="card-block">
+                                        <i class="icon-energy"></i> {{L('On-demand customization','Xây dựng các tính năng theo nhu cầu')}}
+                                    </div>
+                                    <div class="card-footer">
+                                        <a href="mailto:t@botform.me" target="_blank">{{L("Contact us ","Liên hệ")}}
+                                        </a>
+
+                                    </div>
+                                </div>
+
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
             </div>
+
         </div>
 
     </div>

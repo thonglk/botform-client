@@ -2,12 +2,30 @@
     <header class="app-header navbar">
 
         <a class="navbar-brand"></a>
+        <div class="spinner" ng-if="loading">
+            <div class="cube1"></div>
+            <div class="cube2"></div>
+        </div>
 
         <ul class="nav navbar-nav ml-auto">
+            <li class="nav-item dropdown pr-2">
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                   aria-expanded="true">
+                    {{lang}}
+                </a>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-header text-center">
+                        <strong class="ng-binding">Choose language</strong>
+                    </div>
+                    <a class="dropdown-item" href="#" ng-click="setLang('en')">English</a>
+                    <a class="dropdown-item" href="#" ng-click="setLang('vi')">Tiếng Việt</a>
 
+                </div>
+            </li>
             <li class="nav-item dropdown">
-                <a class="nav-link nav-pill " data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                    <i class="icon-list"></i></a>
+                <a class="nav-link nav-pill " data-toggle="dropdown" href="#" role="button" aria-haspopup="true"
+                   aria-expanded="false">
+                    <i class="icon-list"></i>
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
 
@@ -15,13 +33,10 @@
                         <strong class="ng-binding">Create</strong>
                     </div>
 
-                    <a class="dropdown-item" ui-sref-active="active" ui-sref="app.create"><i class="fa fa-bell-o"></i> Lead Automation</a>
-                    <a class="dropdown-item" ui-sref-active="active" ui-sref="app.rebrand"><i class="fa fa-bell-o"></i> Remove Chatfuel Branding</a>
-                    <div class="dropdown-header text-center">
-                        <strong class="ng-binding">Manage</strong>
-                    </div>
-
-                    <a ng-if="pageID" class="dropdown-item" ui-sref-active="active" ui-sref="app.bot ({page:pageID})"><i class="fa fa-bell-o"></i> Response</a>
+                    <a class="dropdown-item" ui-sref-active="active" ui-sref="create"><i class="fa fa-bell-o"></i>
+                        Create chatbot</a>
+                    <a class="dropdown-item" ui-sref-active="active" ui-sref="rebrand"><i class="fa fa-bell-o"></i>
+                        Remove bot's menu</a>
 
                 </div>
             </li>
@@ -31,28 +46,60 @@
 
 
 <div class="app-body">
+    <div class="sidebar">
+        <nav class="sidebar-nav">
+            <ul class="nav">
+                <li class="nav-title text-center">
+                    <span>Dashboard</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" ui-sref-active="active"
+                       ui-sref="app.bot ({state: 'dashBoard',page:pageID})"><i class="icon-speedometer"></i>Dashboard
+                    </a>
+                    <a class="nav-link" ui-sref-active="active"
+                       ui-sref="app.bot ({state: 'viewBot',page:pageID})">
+                        <i class="icon-list"></i> Users</a>
+                    <a class="nav-link" ui-sref-active="active"
+                       ui-sref="app.bot ({state: 'broadCast',page:pageID})">
+                        <i class="icon-info"></i> Broadcast</a>
+                </li>
+
+                <li class="divider"></li>
+                <li class="nav-title text-center">
+                    <span>Get Started</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" ui-sref-active="active"
+                       ui-sref="app.bot ({state: 'template',page:pageID})">
+                        <i class="icon-info"></i> Change Template</a>
+                    <a class="nav-link " ui-sref-active="active"
+                       ui-sref="app.bot ({state: 'pricing',page:pageID})">
+                        <i class="icon-info"></i> Remove branding</a>
+                </li>
+
+                <li class="divider"></li>
+                <li class="nav-title text-center">
+                    <span>Extras</span>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link " href="https://docs.google.com/document/d/1AgqAU-AI1rCj0SlPrTjrKP8E6SmQwZ5zk_ZlrVRIp6Y/edit#heading=h.wdljp7xs8y9v"
+                       target="_blank">
+                        <i class="icon-info"></i> {{L('Guide',"Tài liệu hướng dẫn")}}</a>
+                </li>
+
+
+            </ul>
+        </nav>
+
+    </div>
+
     <!-- Main content -->
     <main class="main">
-
         <ui-view></ui-view>
 
     </main>
 </div>
 
-<script>
-    function openNav() {
-        document.getElementById("mySidenav").style.width = "250px";
-        document.getElementById("main").style.marginLeft = "250px";
-        document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
-    }
 
-    /* Set the width of the side navigation to 0 */
-    function closeNav() {
-        document.getElementById("mySidenav").style.width = "0";
-        document.getElementById("main").style.marginLeft = "0";
-        document.body.style.backgroundColor = "white";
-    }
-
-</script>
 <!-- Footer -->
 <!--<div ng-include="'views/common/footer.html'"></div>-->

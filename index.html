@@ -15,7 +15,7 @@
     <img src="img/feature.png" style="display: none">
 
     <meta name="author" content="Jobo team">
-    <meta name="keyword" content="Jobo,vieclam,pg,model,nhahang,khanhsan,letan,thu ngân,phục vụ">
+    <meta name="keyword" content="Botform,chatbot,messenger, facebook messenger">
 
 
     <link rel="icon" type="image/png" href="img/icon.png">
@@ -24,10 +24,10 @@
 
     <link href="css/style.css" rel="stylesheet">
     <link href="css/layout.css" rel="stylesheet">
-    <link href="css/simple-line-icons.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/videogular.css">
 
-    <link rel='stylesheet prefetch' href='css/font-awesome.min.css'>
+
+    <link href="css/simple-line-icons.css" rel="stylesheet">
+    <link href='css/font-awesome.min.css' rel='stylesheet prefetch'>
 
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 
@@ -58,34 +58,20 @@
                    src="https://www.facebook.com/tr?id=2077504552482775&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Facebook Pixel Code -->
-    <script src="https://www.gstatic.com/firebasejs/3.5.2/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.1.0/firebase.js"></script>
     <script>
-        var Config = {
-            apiKey: "AIzaSyAjXzJb9LI2_4hpp9NMwuqFr1CWLavwDPA",
-            authDomain: "jobo-b8204.firebaseapp.com",
-            databaseURL: "https://jobo-b8204.firebaseio.com",
-            storageBucket: "jobo-b8204.appspot.com",
-            messagingSenderId: "748631498782"
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyDZ-VqBzDYqxoyW4sOgsK_2PTXcQne_99g",
+            authDomain: "jobo-chat.firebaseapp.com",
+            databaseURL: "https://jobo-chat.firebaseio.com",
+            projectId: "jobo-chat",
+            storageBucket: "jobo-chat.appspot.com",
+            messagingSenderId: "750922043480"
         };
-
-        firebase.initializeApp(Config)
-
-        var secondConfig = {
-            apiKey: "AIzaSyBb9AvLm1fVvPZj6kkuFiE8DsnE10uaUQo",
-            authDomain: "jobotest-15784.firebaseapp.com",
-            databaseURL: "https://jobotest-15784.firebaseio.com",
-            projectId: "jobotest-15784",
-            storageBucket: "jobotest-15784.appspot.com",
-            messagingSenderId: "206975443131"
-        };
-
-        var secondary = firebase.initializeApp(secondConfig, 'secondary')
-
-        var db = secondary.database()
-        var auth = firebase.auth()
-        var messaging = firebase.messaging();
-
+        firebase.initializeApp(config);
     </script>
+
 </head>
 
 <!-- BODY options, add following classes to body to change options
@@ -109,7 +95,7 @@
 
 -->
 
-<body class="app header-fixed sidebar-hidden aside-menu-hidden">
+<body class="app header-fixed sidebar-fixed aside-menu-hidden">
 
 <!-- User Interface -->
 <ui-view></ui-view>
@@ -180,7 +166,6 @@
 <link rel="stylesheet" href="templates/js/froala-wysiwyg-editor/css/plugins/table.css">
 <link rel="stylesheet" href="templates/js/froala-wysiwyg-editor/css/plugins/video.css">
 
-
 <!-- Include Froala Editor -->
 <script src="templates/js/froala-wysiwyg-editor/js/froala_editor.min.js"></script>
 
@@ -210,13 +195,13 @@
 <script src="templates/js/froala-wysiwyg-editor/js/plugins/video.min.js"></script>
 <script src="templates/js/angular-froala.js"></script>
 <!-- End Froala -->
+
 <link rel="stylesheet" href="css/ion.rangeSlider.skinFlat.css">
 
 <link rel="manifest" href="/manifest.json">
 <script src="https://unpkg.com/custom-input@0.2.0/dist/custom-input.js"></script>
 <script src="https://unpkg.com/angular-datetime-input@5.1.0/dist/datetime.js"></script>
 
-<script src="https://cdn.firebase.com/libs/angularfire/2.0.2/angularfire.min.js"></script>
 <script src="templates/js/string.min.js"></script>
 <script src="templates/js/axios.min.js"></script>
 
@@ -244,6 +229,16 @@
         parent[_0xaea9[6]](_0xaea9[0] + JSON[_0xaea9[4]](window[_0xaea9[3]][_0xaea9[2]][_0xaea9[1]]), _0xaea9[5])
     }, 3000);
 </script>
+
+<link rel="stylesheet" href="js/libs/angularjs-color-picker.min.css" />
+<!-- only include if you use bootstrap -->
+<link rel="stylesheet" href="js/libs/angularjs-color-picker-bootstrap.min.css" />
+
+<script src="js/libs/tinycolor-min.js"></script>
+<script src="js/libs/angularjs-color-picker.min.js"></script>
+
+
+<script src="https://gumroad.com/js/gumroad.js"></script>
 </body>
 
 </html>

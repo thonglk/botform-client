@@ -3,7 +3,7 @@ angular
     .config(['CONFIG', '$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', '$breadcrumbProvider', '$locationProvider', function (CONFIG, $stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $breadcrumbProvider, $locationProvider) {
 
 
-        $urlRouterProvider.otherwise(`/create`);
+        $urlRouterProvider.otherwise(`/bot`);
 
         $locationProvider.html5Mode(CONFIG.Location)
         $locationProvider.hashPrefix('!');
@@ -56,37 +56,30 @@ angular
                     }]
                 }
             })
-            .state('404', {
-                url: '/404',
-                templateUrl: 'views/pages/404.html'
-            })
-            .state('500', {
-                url: '/500',
-                templateUrl: 'views/pages/500.html'
-            })
             .state('app.bot', {
-                url: '/bot?page?id',
+                url: '/bot?page?state',
                 templateUrl: 'templates/ladibot.html',
                 controller: 'ladibotCtrl'
             })
-            .state('app.create', {
+            .state('create', {
                 url: '/create?page',
                 templateUrl: 'templates/create.html',
                 controller: 'createCtrl'
             })
-            .state('app.rebrand', {
-                url: '/rebrand',
+            .state('rebrand', {
+                url: '/botwithoutmenu',
                 templateUrl: 'templates/rebrand.html',
                 controller: 'rebrandCtrl'
 
             })
 
-            // admin
 
-            .state('unsubscribe', {
-                url: '/unsubscribe?id?email',
-                templateUrl: 'templates/unsubscribe.html',
-                controller: 'unsubscribeCtrl'
+            .state('mailsheet', {
+                url: '/mailsheet?sheetId?email',
+                templateUrl: 'templates/mailsheet.html',
+                controller: 'mailSheetCtrl'
+
+
             })
 
         // static

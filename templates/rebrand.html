@@ -1,49 +1,70 @@
-<div class="app animated fadeIn">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card" style="margin-top: 20px;">
-                <hr class="transparent mx-1 my-0">
-                <div class="callout callout-primary m-0 py-1">
+<section id="features" class="features">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="section-heading">
+                    <h2>{{L("Remove bot's menu","Xóa bot menu")}}</h2>
+
+                </div>
+            </div>
+        </div>
+        <!--<div class="row">-->
+            <!--<div class="col-md-4">-->
+                <!--<div class="feature-item">-->
+                    <!--<i class="icon-user-following text-primary"></i>-->
+                    <!--<h3>1. Ứng tuyển không cần CV</h3>-->
+                    <!--<p>Cập nhật các thông tin về bạn để chúng tôi hiểu bạn hơn và đề xuất công việc phù hợp</p>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col-md-4">-->
+                <!--<div class="feature-item">-->
+                    <!--<i class="icon-envelope-letter text-primary"></i>-->
+                    <!--<h3>2. Tư vấn việc làm trực tiếp</h3>-->
+                    <!--<p>Bạn sẽ gặp tư vấn việc trực tiếp tại văn phòng hoặc online qua mobile để được tư vấn việc làm</p>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="col-md-4">-->
+                <!--<div class="feature-item">-->
+                    <!--<i class="icon-present text-primary"></i>-->
+                    <!--<h3>3. Hoàn thiện hồ sơ và nhận việc</h3>-->
+                    <!--<p>Jobo sẽ trực tiếp hướng dẫn bạn hoàn thiện hồ sơ (bao gồm thông tin cá nhân, mong muốn và video-->
+                        <!--phỏng vấn ngắn)</p>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card" style="margin-top: 20px;">
 
 
-                    <div class="noti">
-                        <h4>Choose Page</h4>
-                    </div>
-
-
-                    <div class="spinner" ng-if="loading">
-                        <div class="cube1"></div>
-                        <div class="cube2"></div>
-                    </div>
-
-                    <div class="card-block" ng-hide="pageList.length> 0">
+                        <div class="card-block" ng-hide="pageList.length> 0">
                             <button ng-click="loginFB()" class="button btn btn-facebook btn-block">Đăng nhập bằng
                                 Facebook
                             </button>
-                    </div>
-                    <div ng-repeat="card in pageList" class="card-joblist" ng-hide="viewLink.length > 0 || loading">
-                        <div class="spinner" ng-if="loading">
-                            <div class="cube1"></div>
-                            <div class="cube2"></div>
                         </div>
-                        <div class="message p-h">
-                            <div class="float-right">
-                                <button ng-click="removeBranding(card,url)" class="btn btn-primary">Connect</button>
-                            </div>
-                            <div><strong>{{card.name}}</strong></div>
 
+                        <div ng-repeat="card in pageList" class="card-joblist" ng-hide="viewLink.length > 0 || loading">
+
+                            <div class="message p-h">
+                                <div class="float-right">
+                                    <button ng-click="removeBranding(card,url)" class="btn btn-primary">Remove</button>
+                                </div>
+                                <div><strong>{{card.name}}</strong></div>
+
+                            </div>
                         </div>
-                    </div>
 
                 </div>
-                <hr class="mx-1 my-0">
+
+
             </div>
-
-
         </div>
+
+
     </div>
+</section>
 
 
-</div>
 
 

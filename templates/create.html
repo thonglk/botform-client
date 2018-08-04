@@ -1,19 +1,18 @@
 <div class="app animated fadeIn">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card" style="margin-top: 20px;" ng-hide="chatBot.id">
+            <div class="card" style="margin-top: 20px;" ng-hide="pageData.id">
                 <hr class="transparent mx-1 my-0">
                 <div class="callout callout-primary m-0 py-1">
 
 
                     <div class="noti">
-                        <h4>Connect to your Facebook Page</h4>
+                        <h4>{{L('Connect to your Facebook Page','Kết nối Facebook Page')}}</h4>
                     </div>
                     <small class="text-muted">
-                        - Đăng nhập facebook và chọn Page bạn muốn kết nối chatbot.<br>
-                        - Bạn cần cung cấp đầy đủ quyền yêu cầu thì Bot mới hoạt động được.
+                        {{L('We’ll need permissions to manage your Page’s messages in order to make bot active.','Bạn
+                        cần cung cấp đầy đủ quyền yêu cầu thì Bot mới hoạt động được.')}}
                     </small>
-
                     <div class="spinner" ng-if="loading">
                         <div class="cube1"></div>
                         <div class="cube2"></div>
@@ -24,191 +23,29 @@
                             <button ng-click="loginFB()" class="button btn btn-facebook btn-block">Đăng nhập bằng
                                 Facebook
                             </button>
-
-
                         </div>
                     </div>
-                    <div class="card-block" ng-show="pageList.length > 0">
-                        <div>
-                            <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="true" data-use-continue-as="false"></div>
-                        </div>
-                    </div>
+
 
                     <div ng-repeat="card in pageList" class="card-joblist" ng-hide="viewLink.length > 0 || loading">
-                        <div class="spinner" ng-if="loading">
-                            <div class="cube1"></div>
-                            <div class="cube2"></div>
-                        </div>
+
                         <div class="message p-h">
                             <div class="float-right">
-                                <button ng-click="setPage(card,url)" class="btn btn-primary">Connect</button>
+                                <button ng-click="buildBot(card)" class="btn btn-primary">Connect</button>
                             </div>
                             <div><strong>{{card.name}}</strong></div>
 
                         </div>
                     </div>
-
+                    <span style="font-size:12px" class="text button-tip">Don't have a Facebook Page? You can <a
+                            style="font-size:12px" target="_blank" href="https://www.facebook.com/pages/create">create facebook page</a> on facebook.com</span>
                 </div>
                 <hr class="mx-1 my-0">
             </div>
 
-            <div class="card" style="margin-top: 20px;" ng-show="chatBot.id">
-                <hr class="transparent mx-1 my-0">
-                <div class="callout callout-primary m-0 py-1">
 
-                    <!--<div class="noti" ng-if="!chatBot.id">-->
-                        <!--<h4 ng-if="!chatBot.id">Step 2: Choose service chatbot!...</h4>-->
-                        <!--<small class="text-muted">-->
-                            <!-- - Chọn template để copy ra 1 bản form của bạn.-->
-                        <!--</small>-->
-                        <!--<div class="row">-->
-
-
-                            <!--<div class="col-md-12">-->
-                                <!--<div class="card-industry">-->
-                                    <!--<a href="https://docs.google.com/forms/d/1DLurQuYAyKiE1AsaizDEoV9SD8-V4F7FVmS2k4_wloI/copy"-->
-                                       <!--target="_blank"><h5>Get lead automation chatbot</h5>-->
-                                    <!--</a>-->
-                                <!--</div>-->
-                            <!--</div>-->
-
-                        <!--</div>-->
-
-
-                        <!--<div class="form-group">-->
-                            <!--<small class="text-muted">-->
-                                <!-- - Chỉnh sửa lại nội dung bot qua form cho phù hợp với nhu cầu của bạn<br>-->
-                                <!-- - Publish forms: Chọn [thêm cộng tác viên] => [Bất cứ ai có link đều có thể truy-->
-                                <!--cập]<br>-->
-                                <!-- - Form của bạn sẽ có 1 đường link, Copy đường link trên thanh địa chỉ của form và dán-->
-                                <!--vào đây-->
-                            <!--</small>-->
-                           <!---->
-                        <!--</div>-->
-                    <!--</div>-->
-                    <div class="noti">
-                        <h4>Your bot {{chatBot.name}} is ready...</h4>
-                        <div>
-                            <div class="card card-outline-primary">
-                                <div class="card-header">
-                                    Chat Bot:
-                                </div>
-                                <div class="card-block">
-                                    <a href="{{viewLink.bot}}?ref=start" target="_blank">{{viewLink.bot}}</a>
-                                </div>
-                            </div>
-                            <div class="card card-outline-primary">
-                                <div class="card-header">
-                                    Google forms:
-                                </div>
-                                <div class="card-block">
-                                    <a href="{{viewLink.forms}}" target="_blank">{{viewLink.forms}}</a>
-                                </div>
-                                <div class="input-group">
-                                    <input placeholder="Paste your Google Form link. Eg: https://docs.google.com/forms/d/.."
-                                           type="text" class="form-control"
-                                           ng-model="url">
-                                    <span class="input-group-btn">
-                                                                <button ng-click="buildBot(card,url)"
-                                                                        class="btn btn-primary">Build</button>
-
-                            </span>
-                                </div>
-                            </div>
-                            <div class="card card-outline-primary">
-                                <div class="card-header">
-                                    Google Sheets
-                                </div>
-                                <div class="card-block">
-                                    <a href="{{viewLink.sheet}}" target="_blank">{{viewLink.sheet}}</a>
-                                </div>
-                            </div>
-
-
-
-
-                        </div>
-
-
-                    </div>
-
-                    <div class="spinner" ng-if="loading">
-                        <div class="cube1"></div>
-                        <div class="cube2"></div>
-                    </div>
-
-                </div>
-                <hr class="mx-1 my-0">
-            </div>
-            <div class="card" style="margin-top: 20px;" ng-show="chatBot.id">
-                <hr class="transparent mx-1 my-0">
-                <div class="callout callout-primary m-0 py-1">
-
-
-                    <div class="noti">
-
-                        <h4>Upgrade your plan</h4>
-                        <div class="row">
-
-
-                            <div class="col-md-12">
-                                <div class="card-industry">
-                                    <h5>FREE (current plan)</h5>
-                                    <ul>
-                                        <li>
-                                            <i class="fa fa-paper-plane-o" aria-hidden="true"></i> Gợi ý và lấy sdt và email
-                                            mà khách không cần nhập từ inbox
-                                        </li>
-                                        <li>
-                                            <i class="fa fa-paper-plane-o" aria-hidden="true"></i> Chỉnh sửa kịch bản bot
-                                            bằng google forms
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-md-12">
-                                <div class="card-industry">
-                                    <h5>PRO</h5>
-                                    <ul>
-                                        <li>
-                                            <span class="badge badge-info">PRO</span> Tự động inbox lấy số từ khách click
-                                            ads, comment trên page, điền form
-                                        </li>
-                                        <li>
-                                            <span class="badge badge-info">PRO</span> Chuyển lead về lưu Google sheets
-                                        </li>
-                                        <li>
-                                            <span class="badge badge-info">PRO</span> Thông báo cho admin qua Messenger và
-                                            Email
-                                        </li>
-                                        <li>
-                                            <span class="badge badge-info">PRO</span> Gửi tin nhắn inbox hàng loạt
-                                        </li>
-                                    </ul>
-                                    <br>
-                                    <a href="https://m.me/160957044542923?ref=go_dang-ky-pro">
-                                        <button type="button" class="btn btn-primary btn-lg btn-block">Đăng ký dùng bản
-                                            PRO
-                                        </button>
-                                    </a>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                    <div class="spinner" ng-if="loading">
-                        <div class="cube1"></div>
-                        <div class="cube2"></div>
-                    </div>
-
-                </div>
-                <hr class="mx-1 my-0">
-            </div>
         </div>
     </div>
-
 
 </div>
 
