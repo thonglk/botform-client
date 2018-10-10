@@ -3,7 +3,7 @@ angular
     .config(['CONFIG', '$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', '$breadcrumbProvider', '$locationProvider', function (CONFIG, $stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $breadcrumbProvider, $locationProvider) {
 
 
-        $urlRouterProvider.otherwise(`/bot`);
+        $urlRouterProvider.otherwise(`/mailsheet`);
 
         $locationProvider.html5Mode(CONFIG.Location)
         $locationProvider.hashPrefix('!');
